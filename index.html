@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário, Meu Amor!</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Playfair Display e Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --rose-gold: #b76e79;
+            --soft-pink: #fbcfe8;
+            --deep-rose: #be123c;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffe4e6 0%, #fbcfe8 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('bg.jpg'); /* Aqui vai sua imagem gerada */
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+            filter: brightness(0.8) contrast(1.1);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+            z-index: -1;
+        }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        /* Animações Customizadas */
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Canvas para corações */
+        #heartCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 3D Tilt Container */
+        .tilt-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .tilt-inner {
+            transform: translateZ(50px);
+        }
+
+        /* Timeline Styles */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -17px;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            background: var(--deep-rose);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(45deg, #fce7f3, #fdf2f8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+            min-height: 150px;
+        }
+
+        /* Smooth Scroll */
+        html { scroll-behavior: smooth; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(183, 110, 121, 0.5); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Background Layers -->
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+    <canvas id="heartCanvas"></canvas>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex flex-col items-center">
+        
+        <!-- Hero Section -->
+        <section class="min-height-[100vh] flex flex-col items-center justify-center p-6 text-center w-screen h-screen">
+            <div class="reveal">
+                <span class="px-4 py-1 rounded-full border border-white/40 glass text-white text-sm uppercase tracking-widest mb-4 inline-block">21 de Abril • Seu Dia</span>
+                <h1 class="font-playfair text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
+                    Feliz Aniversário, <br/>
+                    <i class="text-rose-200">Meu Amor</i>
+                </h1>
+                <p class="text-white/90 text-lg md:text-xl font-light max-w-xl mx-auto drop-shadow">
+                    Hoje o universo celebra a sua existência. E eu celebro a sorte de ter você ao meu lado.
+                </p>
+                <div class="mt-10 animate-bounce">
+                    <a href="#letter" class="text-white/70 hover:text-white transition-colors">
+                        <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Letter Section -->
+        <section id="letter" class="py-20 px-6 w-full max-w-4xl">
+            <div class="tilt-card glass rounded-[2.5rem] p-8 md:p-16 text-center relative overflow-hidden reveal">
+                <div class="tilt-inner">
+                    <div class="mb-8 flex justify-center">
+                        <div class="bg-rose-500/20 p-4 rounded-full">
+                            <svg class="w-10 h-10 text-rose-500 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <h2 class="font-playfair text-3xl md:text-4xl text-rose-700 mb-8 italic">Para a mulher da minha vida</h2>
+                    
+                    <div class="space-y-6 text-slate-700 text-lg leading-relaxed font-light text-left md:text-center max-w-2xl mx-auto">
+                        <p>
+                            Não existem palavras suficientes no dicionário para descrever o quanto você é incrível. Sua inteligência, sua força e seu sorriso são o que iluminam meus dias mais nublados.
+                        </p>
+                        <p>
+                            Você não é apenas minha namorada, é minha melhor amiga e meu porto seguro. Ver você crescendo e conquistando o mundo é um dos meus maiores orgulhos.
+                        </p>
+                        <p>
+                            Neste seu novo ciclo, desejo que você continue espalhando essa luz única que só você tem. Que seus sonhos se realizem e que eu possa estar em cada um deles aplaudindo você.
+                        </p>
+                    </div>
+
+                    <div class="mt-12 pt-8 border-t border-rose-200">
+                        <p class="font-playfair text-2xl text-rose-600 italic">Com todo o meu amor,</p>
+                        <p class="font-bold text-slate-800 text-xl mt-2">Ass: Patinho</p>
+                    </div>
+                </div>
+                
+                <!-- Decorative Elements -->
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-rose-300/20 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-rose-300/20 rounded-full blur-3xl"></div>
+            </div>
+        </section>
+
+        <!-- Our Moments (Gallery Timeline) -->
+        <section class="py-20 px-6 w-full max-w-5xl">
+            <h3 class="text-center font-playfair text-4xl text-white drop-shadow-md mb-16 underline decoration-rose-400">Nossa Jornada</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Moment 1 -->
+                <div class="reveal delay-1 glass p-6 rounded-2xl group cursor-pointer hover:-translate-y-2 transition-all duration-500">
+                    <div class="image-placeholder group-hover:scale-[1.02] transition-all">
+                        <span class="text-rose-400 font-medium">Foto de um momento especial ✨</span>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-xs text-rose-500 font-bold uppercase tracking-widest">O Começo</span>
+                        <h4 class="font-playfair text-xl text-slate-800 mt-1">O dia que mudou tudo</h4>
+                        <p class="text-slate-500 text-sm mt-2">Onde nossa história começou a ser escrita.</p>
+                    </div>
+                </div>
+
+                <!-- Moment 2 -->
+                <div class="reveal delay-2 glass p-6 rounded-2xl group cursor-pointer hover:-translate-y-2 transition-all duration-500">
+                    <div class="image-placeholder group-hover:scale-[1.02] transition-all">
+                        <span class="text-rose-400 font-medium">Foto de uma viagem 🗺️</span>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-xs text-rose-500 font-bold uppercase tracking-widest">Aventuras</span>
+                        <h4 class="font-playfair text-xl text-slate-800 mt-1">Nossas escapadas</h4>
+                        <p class="text-slate-500 text-sm mt-2">Colecionando memórias pelo mundo.</p>
+                    </div>
+                </div>
+
+                <!-- Moment 3 -->
+                <div class="reveal delay-3 glass p-6 rounded-2xl group cursor-pointer hover:-translate-y-2 transition-all duration-500">
+                    <div class="image-placeholder group-hover:scale-[1.02] transition-all">
+                        <span class="text-rose-400 font-medium">Foto do cotidiano 🏠</span>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-xs text-rose-500 font-bold uppercase tracking-widest">Presente</span>
+                        <h4 class="font-playfair text-xl text-slate-800 mt-1">Nossa rotina favorita</h4>
+                        <p class="text-slate-500 text-sm mt-2">O amor nos detalhes do dia a dia.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Music UI -->
+        <section class="py-20 px-6 w-full flex justify-center reveal">
+            <div class="glass px-10 py-6 rounded-full flex items-center gap-6 border-white/50">
+                <div class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center animate-[spin_5s_linear_infinite]">
+                    <div class="w-3 h-3 bg-white rounded-full"></div>
+                </div>
+                <div>
+                    <p class="text-xs text-rose-600 font-bold uppercase">Now Playing</p>
+                    <p class="text-white text-sm font-medium">Nossa Música Favorita</p>
+                </div>
+                <div class="flex gap-2">
+                    <div class="w-1 h-4 bg-white/50 animate-[pulse_1s_infinite]"></div>
+                    <div class="w-1 h-6 bg-white/80 animate-[pulse_1.2s_infinite]"></div>
+                    <div class="w-1 h-3 bg-white/50 animate-[pulse_0.8s_infinite]"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-10 text-white/50 text-xs tracking-widest uppercase pb-20">
+            Com carinho eterno • 2024
+        </footer>
+
+    </main>
+
+    <script>
+        // --- 1. Sistema de Corações (Canvas para Performance) ---
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        let hearts = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Heart {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 50;
+                this.size = Math.random() * 10 + 5;
+                this.speed = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.velX = Math.random() * 2 - 1;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 2 - 1;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#ff4d6d';
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, this.size/3, 0, this.size);
+                ctx.bezierCurveTo(this.size, this.size/3, this.size/2, -this.size/2, 0, 0);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            update() {
+                this.y -= this.speed;
+                this.x += Math.sin(this.y * 0.01) * 0.5;
+                this.rotation += this.rotationSpeed;
+                if (this.y < -50) this.reset();
+            }
+        }
+
+        for(let i = 0; i < 40; i++) hearts.push(new Heart());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hearts.forEach(h => {
+                h.update();
+                h.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- 2. Efeito Tilt 3D ---
+        const card = document.querySelector('.tilt-card');
+        if (card) {
+            document.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const { innerWidth, innerHeight } = window;
+                const xRotation = ((clientY / innerHeight) - 0.5) * 20; // max 10deg
+                const yRotation = ((clientX / innerWidth) - 0.5) * -20;
+                card.style.transform = `rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+            });
+            
+            document.addEventListener('mouseleave', () => {
+                card.style.transform = `rotateX(0) rotateY(0)`;
+            });
+        }
+
+        // --- 3. Scroll Reveal ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.classList.add('reveal');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
